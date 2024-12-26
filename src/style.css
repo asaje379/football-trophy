@@ -63,7 +63,7 @@ button:hover {
   background-color: rgb(43, 56, 44);
 }
 
-#right-pane {
+#right-panel {
   display: flex;
   flex-direction: column;
   padding: 20px;

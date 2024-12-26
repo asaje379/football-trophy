@@ -1,11 +1,12 @@
-import { Defaults } from './defaults';
-import { Movable } from './movable';
+import { Defaults } from "./defaults";
+import { Movable } from "./movable";
 
 export class Ball extends Movable {
   speed = 2;
   interval: number = 0;
+  isPaused = false;
   collisionsOptions: { target: Movable; callback: () => void }[] = [];
-  gameOverFn: () => void = () => console.log('Game over!');
+  gameOverFn: () => void = () => console.log("Game over!");
 
   constructor() {
     super({
@@ -16,12 +17,13 @@ export class Ball extends Movable {
 
     if (this.ref) {
       this.move(Math.floor(Math.random() * 3), 0);
-      this.ref.style.transition = '0.2s';
+      this.ref.style.transition = "0.2s";
     }
   }
 
   startAnimation() {
     this.interval = setInterval(() => {
+      if (this.isPaused) return;
       if (
         this.currentPosition.y >
         Defaults.sceneHeight + 3 * Defaults.ballSize
@@ -51,14 +53,14 @@ export class Ball extends Movable {
   changeDirection() {
     clearInterval(this.interval);
     if (this.ref) {
-      this.ref.style.transition = '0.8s';
+      this.ref.style.transition = "0.8s";
     }
 
     const directionOffset = this.getDirectionOffset();
 
     this.move(
       this.currentPosition.x + 2 * directionOffset,
-      this.currentPosition.y - 6 * Defaults.ballSize,
+      this.currentPosition.y - 6 * Defaults.ballSize
     );
     setTimeout(() => {
       this.remove();
