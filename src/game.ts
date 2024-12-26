@@ -1,7 +1,7 @@
-import { Ball } from "./ball";
-import { GoalKeeper } from "./goal-keeper";
-import { Movable } from "./movable";
-import { Scene } from "./scene";
+import { Ball } from './ball';
+import { GoalKeeper } from './goal-keeper';
+import { Movable } from './movable';
+import { Scene } from './scene';
 
 export class Game {
   speed = 2;
@@ -10,15 +10,15 @@ export class Game {
   isPlaying = true;
   isStarting = false;
 
-  private balls: Ball[] = [];
+  private static balls: Ball[] = [];
 
   constructor(private scene: Scene, private scoreTemplate: HTMLElement) {
     this.init();
   }
 
   init() {
-    document.addEventListener("visibilitychange", () =>
-      this.handleVisibilityChange()
+    document.addEventListener('visibilitychange', () =>
+      this.handleVisibilityChange(),
     );
   }
 
@@ -42,12 +42,12 @@ export class Game {
 
   pause() {
     this.isPlaying = false;
-    this.balls.forEach((ball) => (ball.isPaused = true));
+    Game.balls.forEach((ball) => (ball.isPaused = true));
   }
 
   resume() {
     this.isPlaying = true;
-    this.balls.forEach((ball) => (ball.isPaused = false));
+    Game.balls.forEach((ball) => (ball.isPaused = false));
   }
 
   ballAnimation(sceneRef: HTMLElement, target: Movable) {
@@ -68,14 +68,14 @@ export class Game {
     });
 
     ball.onGameOver(() => {
-      this.balls = [];
-      alert("Game over!");
+      Game.balls = [];
+      alert('Game over!');
       // reset all settings
       this.score = 0;
       this.renderScore();
       this.speed = 2;
     });
-    this.balls.push(ball);
+    Game.balls.push(ball);
   }
 
   ballLoop(sceneRef: HTMLElement, target: Movable) {
@@ -87,9 +87,9 @@ export class Game {
 
   // Vérifier si la page est visible ou cachée
   handleVisibilityChange() {
-    if (document.visibilityState !== "visible") {
+    if (document.visibilityState !== 'visible') {
       this.pause();
-      console.log("Paused due to inactivity");
+      console.log('Paused due to inactivity');
     }
   }
 }
